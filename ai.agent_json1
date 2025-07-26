@@ -1,81 +1,66 @@
 {
   "nodes": [
     {
-      "parameters": {},
-      "name": "Manual Trigger",
-      "type": "n8n-nodes-base.manualTrigger",
+      "parameters": {
+        "path": "my-webhook-path",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
-      "position": [400, 250]
+      "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+      "position": [
+        400,
+        250
+      ],
+      "alwaysOutputData": true,
+      "webhookId": "someUniqueWebhookId"
     },
     {
       "parameters": {
-        "values": {
-          "text": "Hello n8n, this is a test string for manipulation!"
-        }
+        "content": "Hello from n8n!",
+        "contentType": "text/plain",
+        "statusCode": 200
       },
-      "name": "Set Input Text",
-      "type": "n8n-nodes-base.set",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
-      "position": [620, 250]
-    },
-    {
-      "parameters": {
-        "functionCode": "const inputText = $input.json.text;\nconst upperCaseText = inputText.toUpperCase();\n\nreturn [{\n  json: {\n    upperCase: upperCaseText,\n    originalText: inputText\n  }\n}];"
-      },
-      "name": "Convert to Uppercase",
-      "type": "n8n-nodes-base.function",
-      "typeVersion": 1,
-      "position": [840, 250]
-    },
-    {
-      "parameters": {
-        "functionCode": "const upperCaseText = $input.json.upperCase;\nconst wordCount = upperCaseText.split(/\\s+/).filter(word => word.length > 0).length;\n\nreturn [{\n  json: {\n    upperCase: upperCaseText,\n    wordCount: wordCount,\n    originalText: $input.json.originalText\n  }\n}];"
-      },
-      "name": "Count Words",
-      "type": "n8n-nodes-base.function",
-      "typeVersion": 1,
-      "position": [1060, 250]
+      "id": "f5e4d3c2-b1a0-9876-5432-10fedcba9876",
+      "position": [
+        700,
+        250
+      ]
     }
   ],
   "connections": {
-    "Manual Trigger": {
+    "Webhook": {
       "main": [
         [
           {
-            "node": "Set Input Text",
-            "hop": "main"
-          }
-        ]
-      ]
-    },
-    "Set Input Text": {
-      "main": [
-        [
-          {
-            "node": "Convert to Uppercase",
-            "hop": "main"
-          }
-        ]
-      ]
-    },
-    "Convert to Uppercase": {
-      "main": [
-        [
-          {
-            "node": "Count Words",
-            "hop": "main"
+            "node": "Respond to Webhook",
+            "input": 0
           }
         ]
       ]
     }
   },
-  "id": "simple-text-manipulation",
-  "name": "Text Manipulation (No Credentials)",
   "active": false,
+  "id": "my-first-credential-free-workflow",
+  "name": "My First Credential-Free Workflow",
+  "jsonVersion": 1,
+  "createdAt": "2025-07-26T10:00:00.000Z",
+  "updatedAt": "2025-07-26T10:00:00.000Z",
+  "settings": {},
+  "staticData": null,
   "nodesPositions": {
-    "400-250": { "x": 400, "y": 250 },
-    "620-250": { "x": 620, "y": 250 },
-    "840-250": { "x": 840, "y": 250 },
-    "1060-250": { "x": 1060, "y": 250 }
+    "a1b2c3d4-e5f6-7890-1234-567890abcdef": [
+      400,
+      250
+    ],
+    "f5e4d3c2-b1a0-9876-5432-10fedcba9876": [
+      700,
+      250
+    ]
   }
 }
